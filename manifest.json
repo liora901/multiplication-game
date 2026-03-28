@@ -1,0 +1,13 @@
+{
+  "background_color": "#ffffff",
+  "dir": "rtl",
+  "display": "standalone",
+  "name": "Math Multiplication Game",
+  "orientation": "portrait",
+  "scope": "/",
+  "short_name": "Multiplication Game",
+  "start_url": "https://liora901.github.io/multiplication-game/",
+  "theme_color": "#ffffff",
+  "description": "A simple game to practice multiplication tables",
+  "lang": "he"
+}
