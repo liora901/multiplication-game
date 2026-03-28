@@ -3,11 +3,25 @@
   "dir": "rtl",
   "display": "standalone",
   "name": "Math Multiplication Game",
-  "orientation": "portrait",
-  "scope": "/",
   "short_name": "Multiplication Game",
   "start_url": "https://liora901.github.io/multiplication-game/",
+  "scope": "/multiplication-game/",
   "theme_color": "#ffffff",
   "description": "A simple game to practice multiplication tables",
-  "lang": "he"
+  "lang": "he",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "launchericon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "launchericon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
 }
