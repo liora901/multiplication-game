@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>🌟 לוח הכפל</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Heebo:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+:root{
+  --sky:#E8F4FF;
+  --yellow:#FFD166;
+  --orange:#FF6B35;
+  --green:#06D6A0;
+  --pink:#FF6B9D;
+  --purple:#A78BFA;
+  --blue:#3B82F6;
+  --dark:#1a1a2e;
+  --r:22px;
+}
+body{
+  font-family:'Heebo',sans-serif;
+  background:var(--sky);
+  min-height:100vh;
+  direction:rtl;
+  overflow-x:hidden;
+}
+body::before{
+  content:'';position:fixed;inset:0;
+  background:
+    radial-gradient(circle at 15% 20%,#ffe5b4 0%,transparent 30%),
+    radial-gradient(circle at 85% 70%,#d4f8e8 0%,transparent 30%),
+    radial-gradient(circle at 50% 90%,#ffd6e8 0%,transparent 25%);
+  pointer-events:none;z-index:0;
+}
+.app-header{
+  padding:10px 14px;
+  position:relative;z-index:10;
+  box-shadow:0 4px 16px rgba(0,0,0,.15);
+  min-height:48px;
+  transition:background .3s;
+}
+.app-header.h-home{background:linear-gradient(135deg,#FF6B35,#FF9F43);}
+.app-header.h-table{background:linear-gradient(135deg,#FF6B35,#FF9F43);}
+.app-header.h-flash{background:linear-gradient(135deg,#A78BFA,#818CF8);}
+.app-header.h-quiz{background:linear-gradient(135deg,#3B82F6,#60A5FA);}
+.app-header.h-memory{background:linear-gradient(135deg,#06D6A0,#34D399);}
+.app-header.h-practice{background:linear-gradient(135deg,#FF6B9D,#FB7185);}
+.app-header.h-blanktable{background:linear-gradient(135deg,#F59E0B,#FBBF24);}
+.app-header h1{font-family:'Fredoka One',cursive;font-size:2rem;letter-spacing:1px;text-shadow:0 3px 0 rgba(0,0,0,.15);}
+.app-header p{font-size:.85rem;opacity:.9;margin-top:4px;}
+.back-btn{
+  position:absolute;right:14px;top:50%;transform:translateY(-50%);
+  background:rgba(255,255,255,.25);border:none;color:white;
+  border-radius:50px;padding:8px 16px;
+  font-family:'Heebo',sans-serif;font-weight:700;font-size:.9rem;
+  cursor:pointer;display:none;
+}
+.screen{display:none;padding:20px 14px;position:relative;z-index:1;animation:fadeIn .3s ease;}
+.screen.active{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+
+/* HOME */
+.home-subtitle{text-align:center;font-weight:900;font-size:1.05rem;color:#555;margin:18px 0 14px;font-family:'Fredoka One',cursive;}
+.mode-grid{display:flex;flex-direction:column;gap:14px;max-width:480px;margin:0 auto;}
+.mode-card{
+  border-radius:var(--r);padding:22px 20px;cursor:pointer;
+  display:flex;align-items:center;gap:18px;
+  box-shadow:0 6px 20px rgba(0,0,0,.1);
+  transition:transform .18s,box-shadow .18s;
+  border:none;width:100%;
+  position:relative;overflow:hidden;font-family:'Heebo',sans-serif;
+}
+.mode-info{flex:1;text-align:center;}
+.mode-card::after{content:'';position:absolute;top:-40px;left:-40px;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,.12);}
+.mode-card:active{transform:scale(.97);}
+.mode-icon{font-size:2.6rem;flex-shrink:0;filter:drop-shadow(0 3px 4px rgba(0,0,0,.15));}
+.mode-spacer{width:2.6rem;flex-shrink:0;}
+.mode-info h2{font-family:'Fredoka One',cursive;font-size:1.35rem;color:white;text-shadow:0 2px 0 rgba(0,0,0,.15);}
+.mode-info p{font-size:.82rem;color:rgba(255,255,255,.85);margin-top:3px;font-weight:600;}
+.mode-card.c1{background:linear-gradient(135deg,#FF6B35,#FF9F43);}
+.mode-card.c2{background:linear-gradient(135deg,#A78BFA,#818CF8);}
+.mode-card.c3{background:linear-gradient(135deg,#3B82F6,#60A5FA);}
+.mode-card.c4{background:linear-gradient(135deg,#06D6A0,#34D399);}
+.mode-card.c5{background:linear-gradient(135deg,#FF6B9D,#FB7185);}
+.mode-card.c6{background:linear-gradient(135deg,#F59E0B,#FBBF24);}
+
+/* BLANK TABLE */
+.bt-setup{text-align:center;padding:20px 0;}
+.bt-setup h2{font-family:'Fredoka One',cursive;font-size:1.6rem;margin-bottom:8px;}
+.bt-record-row{background:white;border-radius:14px;padding:12px 16px;margin:0 auto 20px;max-width:400px;text-align:center;box-shadow:0 3px 10px rgba(0,0,0,.07);}
+.bt-record-row .bt-rec-title{font-size:.8rem;color:#999;margin-bottom:4px;}
+.bt-record-row .bt-rec-val{font-family:'Fredoka One',cursive;font-size:1.1rem;color:var(--orange);}
+.blank-pct-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;max-width:340px;margin:0 auto 20px;}
+.bpct-btn{border:3px solid #ddd;border-radius:12px;background:white;font-family:'Fredoka One',cursive;font-size:1rem;padding:12px 0;cursor:pointer;transition:all .18s;}
+.bpct-btn:active,.bpct-btn.sel{background:var(--orange);color:white;border-color:var(--orange);}
+.bt-hud{display:flex;gap:10px;margin-bottom:14px;align-items:center;}
+.bt-hud-box{background:white;border-radius:12px;padding:9px 14px;font-weight:700;font-size:.85rem;box-shadow:0 2px 8px rgba(0,0,0,.07);flex:1;text-align:center;}
+.bt-hud-box .bv{font-family:'Fredoka One',cursive;font-size:1.3rem;color:var(--orange);}
+.bt-hud-box .bl{font-size:.65rem;color:#999;margin-top:2px;}
+.bt-table-wrap{overflow-x:auto;}
+.bt-table{width:100%;border-collapse:separate;border-spacing:3px;max-width:480px;margin:0 auto;}
+.bt-table th{background:var(--orange);color:white;font-family:'Fredoka One',cursive;font-size:.8rem;padding:0;border-radius:6px;text-align:center;width:34px;height:34px;}
+.bt-table td{background:white;text-align:center;padding:0;border-radius:6px;box-shadow:0 1px 4px rgba(0,0,0,.06);width:34px;height:34px;}
+.bt-table .rh{background:var(--orange);color:white;font-family:'Fredoka One',cursive;font-size:.8rem;border-radius:6px;font-weight:700;}
+.bt-inp{border:2px solid #ddd;border-radius:6px;text-align:center;width:100%;height:100%;font-family:'Fredoka One',cursive;font-size:.85rem;outline:none;background:white;transition:border .15s;-moz-appearance:textfield;padding:0;box-sizing:border-box;}
+.bt-inp::-webkit-outer-spin-button,.bt-inp::-webkit-inner-spin-button{-webkit-appearance:none;}
+.bt-inp:focus{border-color:var(--orange);background:#fff8f4;}
+.bt-inp.ok{border-color:var(--green);background:#f0fff8;color:var(--green);}
+.bt-inp.bad{border-color:#ff4757;background:#fff0f0;}
+.bt-static{font-weight:700;font-size:.85rem;color:#444;display:flex;align-items:center;justify-content:center;width:100%;height:100%;}
+.bt-done-btn{display:block;width:100%;max-width:400px;margin:14px auto 0;background:linear-gradient(135deg,#F59E0B,#FBBF24);color:white;border:none;border-radius:50px;padding:15px;font-family:'Fredoka One',cursive;font-size:1.2rem;cursor:pointer;box-shadow:0 5px 16px rgba(245,158,11,.35);transition:all .18s;}
+.bt-done-btn:active{transform:scale(.97);}
+
+/* TABLE */
+.toggle-row{display:flex;gap:10px;justify-content:center;margin-bottom:18px;}
+.toggle-btn{
+  border:3px solid var(--orange);background:white;color:var(--orange);
+  border-radius:50px;padding:9px 24px;
+  font-family:'Fredoka One',cursive;font-size:1rem;cursor:pointer;transition:all .18s;
+}
+.toggle-btn.active,.toggle-btn:hover{background:var(--orange);color:white;}
+.classic-table{border-collapse:separate;border-spacing:3px;max-width:480px;margin:0 auto;table-layout:fixed;width:100%;}
+.classic-table th{background:var(--orange);color:white;font-family:'Fredoka One',cursive;font-size:.8rem;padding:0;border-radius:7px;text-align:center;height:34px;width:34px;}
+.classic-table td{background:white;text-align:center;padding:0;border-radius:7px;font-weight:700;font-size:.8rem;box-shadow:0 2px 6px rgba(0,0,0,.06);height:34px;}
+.classic-table .rh{background:var(--orange);color:white;font-family:'Fredoka One',cursive;border-radius:7px;}
+
+/* FLASH */
+.flash-num-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:7px;max-width:480px;margin:0 auto 14px;}
+.fn-btn{border:3px solid #ddd;border-radius:12px;background:white;font-family:'Fredoka One',cursive;font-size:1.1rem;padding:10px 0;cursor:pointer;transition:all .18s;}
+.fn-btn:active{transform:scale(.93);}
+.fn-btn.sel{background:var(--purple);color:white;border-color:var(--purple);}
+.fn-btn.mix{background:var(--pink);color:white;border-color:var(--pink);font-size:.85rem;}
+.flash-mode-row{display:flex;gap:8px;justify-content:center;margin-bottom:16px;}
+.fmode-btn{border:2.5px solid var(--purple);border-radius:50px;padding:7px 18px;font-family:'Fredoka One',cursive;font-size:.9rem;cursor:pointer;background:white;color:var(--purple);transition:all .18s;}
+.fmode-btn.sel{background:var(--purple);color:white;}
+.flash-cards-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;max-width:480px;margin:0 auto;}
+.fc-grid-card{perspective:600px;cursor:pointer;height:90px;}
+.fc-grid-inner{position:relative;width:100%;height:100%;transition:transform .45s cubic-bezier(.4,0,.2,1);transform-style:preserve-3d;}
+.fc-grid-card.flipped .fc-grid-inner{transform:rotateY(180deg);}
+.fc-grid-face{position:absolute;inset:0;border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;backface-visibility:hidden;padding:6px;}
+.fc-grid-front{background:linear-gradient(135deg,var(--purple),#818CF8);color:white;}
+.fc-grid-back{background:linear-gradient(135deg,var(--green),#34D399);color:white;transform:rotateY(180deg);}
+.fc-grid-q{font-family:'Fredoka One',cursive;font-size:1.3rem;}
+.fc-grid-a{font-family:'Fredoka One',cursive;font-size:1.7rem;}
+.fc-grid-sub{font-size:.65rem;opacity:.7;margin-top:3px;}
+
+/* QUIZ */
+.quiz-setup{text-align:center;padding:20px 0;}
+.quiz-setup h2{font-family:'Fredoka One',cursive;font-size:1.6rem;margin-bottom:8px;}
+.quiz-setup p{color:#666;margin-bottom:20px;font-size:.9rem;}
+.setup-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:14px;align-items:center;}
+.setup-label{font-weight:700;font-size:.9rem;}
+.setup-select{border:2.5px solid var(--orange);border-radius:12px;padding:8px 14px;font-family:'Heebo',sans-serif;font-weight:700;font-size:.9rem;background:white;color:var(--dark);}
+.start-big{background:linear-gradient(135deg,var(--orange),#FF9F43);color:white;border:none;border-radius:50px;padding:16px 48px;font-family:'Fredoka One',cursive;font-size:1.4rem;cursor:pointer;box-shadow:0 6px 20px rgba(255,107,53,.35);transition:all .18s;display:inline-block;margin-top:10px;}
+.start-big:active{transform:scale(.96);}
+.quiz-hud{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px;}
+.hud-box{background:white;border-radius:14px;text-align:center;padding:10px 4px;box-shadow:0 3px 10px rgba(0,0,0,.07);}
+.hud-box .hv{font-family:'Fredoka One',cursive;font-size:1.5rem;color:var(--orange);}
+.hud-box .hl{font-size:.65rem;color:#999;margin-top:2px;}
+.timer-wrap{background:#ffe8d6;border-radius:100px;height:12px;margin-bottom:16px;overflow:hidden;}
+.timer-fill{height:100%;border-radius:100px;background:linear-gradient(90deg,var(--green),var(--yellow));transition:width 1s linear;}
+.q-card{background:var(--dark);color:white;border-radius:var(--r);padding:32px 20px;text-align:center;margin-bottom:18px;box-shadow:0 8px 30px rgba(26,26,46,.25);}
+.q-big{font-family:'Fredoka One',cursive;font-size:3.2rem;}
+.q-sub{font-size:.8rem;opacity:.45;margin-top:4px;}
+.ans-row{display:flex;gap:10px;justify-content:center;}
+.ans-input{border:3px solid #ddd;border-radius:14px;padding:14px;font-family:'Fredoka One',cursive;font-size:1.6rem;text-align:center;width:150px;outline:none;transition:border .2s;}
+.ans-input:focus{border-color:var(--orange);}
+.ans-input.ok{border-color:var(--green);background:#f0fff8;}
+.ans-input.bad{border-color:#ff4757;background:#fff0f0;}
+.submit-answer-btn{display:block;width:100%;margin-top:14px;background:linear-gradient(135deg,var(--orange),#FF9F43);color:white;border:none;border-radius:16px;padding:16px;font-family:'Fredoka One',cursive;font-size:1.2rem;cursor:pointer;box-shadow:0 5px 16px rgba(255,107,53,.35);transition:all .18s;}
+.submit-answer-btn:active{transform:scale(.97);}
+.feedback{min-height:36px;text-align:center;font-family:'Fredoka One',cursive;font-size:1.15rem;margin-top:12px;}
+.feedback.ok{color:var(--green);}
+.feedback.bad{color:#ff4757;}
+.correct-hint{background:#fff9c4;border-radius:12px;padding:10px;text-align:center;font-weight:700;color:#7d5c00;font-size:.95rem;margin-top:8px;display:none;}
+.correct-hint.show{display:block;}
+.end-screen{text-align:center;padding:30px 0;}
+.end-score{font-family:'Fredoka One',cursive;font-size:4.5rem;color:var(--orange);}
+.record-badge{display:inline-block;background:var(--yellow);color:#7d5c00;border-radius:50px;padding:6px 18px;font-weight:700;font-size:.9rem;margin:8px 0;}
+.end-btn{display:inline-block;background:linear-gradient(135deg,var(--orange),#FF9F43);color:white;border:none;border-radius:50px;padding:14px 36px;font-family:'Fredoka One',cursive;font-size:1.2rem;cursor:pointer;margin:8px 6px;box-shadow:0 5px 16px rgba(255,107,53,.35);transition:all .18s;}
+.end-btn:active{transform:scale(.96);}
+.end-btn.sec{background:linear-gradient(135deg,#64748b,#94a3b8);box-shadow:none;}
+
+/* MEMORY */
+.mem-setup-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;max-width:340px;margin:0 auto;}
+.msn-btn{border:3px solid #ddd;border-radius:12px;background:white;font-family:'Fredoka One',cursive;font-size:1.1rem;padding:12px 0;cursor:pointer;transition:all .18s;}
+.msn-btn:active,.msn-btn.sel{background:var(--orange);color:white;border-color:var(--orange);}
+.mem-pairs-row{display:flex;gap:10px;justify-content:center;margin-bottom:4px;}
+.msp-btn{border:3px solid #ddd;border-radius:12px;background:white;font-family:'Fredoka One',cursive;font-size:1rem;padding:10px 20px;cursor:pointer;transition:all .18s;}
+.msp-btn:active,.msp-btn.sel{background:var(--orange);color:white;border-color:var(--orange);}
+.mem-hud{display:flex;gap:10px;margin-bottom:14px;align-items:center;}
+.mem-stat{background:white;border-radius:12px;padding:9px 14px;font-weight:700;font-size:.9rem;box-shadow:0 2px 8px rgba(0,0,0,.07);flex:1;text-align:center;}
+.mem-stat span{color:var(--orange);font-size:1.2rem;display:block;font-family:'Fredoka One',cursive;}
+.mem-new-btn{background:var(--orange);color:white;border:none;border-radius:12px;padding:10px 16px;font-family:'Fredoka One',cursive;font-size:.9rem;cursor:pointer;}
+.mem-grid{display:grid;gap:8px;max-width:480px;margin:0 auto;}
+.mem-card{cursor:pointer;aspect-ratio:1/1.1;}
+.mc-inner{position:relative;width:100%;height:100%;transition:transform .4s;transform-style:preserve-3d;}
+.mem-card.flipped .mc-inner,.mem-card.matched .mc-inner{transform:rotateY(180deg);}
+.mc-face{position:absolute;inset:0;border-radius:14px;display:flex;align-items:center;justify-content:center;backface-visibility:hidden;font-family:'Fredoka One',cursive;text-align:center;padding:6px;}
+.mc-back{background:linear-gradient(135deg,var(--blue),#60A5FA);color:white;font-size:1.8rem;}
+.mc-front{background:white;border:3px solid var(--green);color:var(--dark);transform:rotateY(180deg);font-size:1rem;flex-direction:column;gap:2px;}
+.mc-front.is-q{border-color:var(--blue);background:#eff6ff;color:var(--blue);}
+.mem-card.matched .mc-front{background:#e8fff4;border-color:var(--green);}
+.mem-card.wrong-flash .mc-inner{animation:wrongFlash .5s;}
+@keyframes wrongFlash{50%{filter:brightness(.7) saturate(.5);}}
+
+/* PRACTICE */
+.num-picker{display:grid;grid-template-columns:repeat(7,1fr);gap:7px;max-width:480px;margin:0 auto 20px;}
+.np-btn{border:3px solid #ddd;border-radius:12px;background:white;font-family:'Fredoka One',cursive;font-size:1rem;padding:10px 0;cursor:pointer;transition:all .18s;}
+.np-btn:active,.np-btn.sel{background:var(--green);color:white;border-color:var(--green);}
+.np-btn.mix{font-size:.8rem;}
+.practice-rows{max-width:340px;margin:0 auto;display:flex;flex-direction:column;align-items:center;}
+.pr-row{display:inline-flex;align-items:center;gap:10px;background:white;border-radius:14px;padding:10px 14px;box-shadow:0 2px 8px rgba(0,0,0,.06);direction:ltr;}
+.pr-row-wrap{display:flex;justify-content:center;width:100%;margin-bottom:10px;}
+.pr-q{font-family:'Fredoka One',cursive;font-size:1.1rem;}
+.pr-eq{font-size:1.1rem;color:#bbb;margin:0 2px;}
+.pr-inp{border:2.5px solid #ddd;border-radius:8px;padding:4px 6px;text-align:center;width:48px;font-family:'Fredoka One',cursive;font-size:1rem;outline:none;transition:border .2s;}
+.pr-inp:focus{border-color:var(--green);}
+.pr-inp.ok{border-color:var(--green);background:#f0fff8;}
+.pr-inp.bad{border-color:#ff4757;background:#fff0f0;}
+.check-all{display:block;width:100%;max-width:380px;margin:16px auto 0;background:linear-gradient(135deg,var(--green),#34D399);color:white;border:none;border-radius:50px;padding:15px;font-family:'Fredoka One',cursive;font-size:1.2rem;cursor:pointer;box-shadow:0 5px 16px rgba(6,214,160,.35);transition:all .18s;}
+.check-all:active{transform:scale(.97);}
+.pr-result{text-align:center;font-weight:700;font-size:1rem;border-radius:14px;padding:12px;margin-top:12px;max-width:380px;margin:12px auto 0;display:none;}
+.pr-result.show{display:block;}
+
+/* PRAISE */
+.praise-pop{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(0);background:white;border-radius:24px;padding:24px 36px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.2);z-index:999;pointer-events:none;transition:transform .3s cubic-bezier(.34,1.56,.64,1);}
+.praise-pop.show{transform:translate(-50%,-50%) scale(1);}
+.praise-pop .pe{font-size:2.8rem;}
+.praise-pop .pt{font-family:'Fredoka One',cursive;font-size:1.2rem;color:var(--orange);margin-top:6px;}
+
+/* RESPONSIVE */
+@media(max-width:380px){
+  .mode-card{padding:16px 14px;}
+  .mode-icon{font-size:2rem;}
+  .mode-info h2{font-size:1.1rem;}
+  .classic-table th,.classic-table td,.classic-table .rh{font-size:.75rem;padding:5px 1px;}
+  .flash-cards-grid{grid-template-columns:repeat(2,1fr);}
+  .fc-grid-card{height:76px;}
+  .fc-grid-q{font-size:1.1rem;}
+  .fc-grid-a{font-size:1.4rem;}
+  .q-big{font-size:2.6rem;}
+  .bt-table th,.bt-table td{font-size:.72rem;}
+  .blank-pct-grid{grid-template-columns:repeat(5,1fr);}
+}
+</style>
+</head>
+<body>
+
+<div class="app-header h-home" id="appHeader" style="display:none">
+  <button class="back-btn" id="backBtn" onclick="goHome()">→ חזרה</button>
+</div>
+
+<!-- HOME -->
+<div id="screen-home" class="screen active">
+  <div style="text-align:center;padding:28px 0 20px;">
+    <div style="font-family:'Fredoka One',cursive;font-size:2.8rem;color:var(--orange);text-shadow:0 3px 0 rgba(255,107,53,.2);line-height:1.2;">משחק לוח הכפל</div>
+  </div>
+  <div class="mode-grid">
+    <button class="mode-card c1" onclick="go('table')">
+      <span class="mode-icon">📊</span>
+      <div class="mode-info"><h2>לוח הכפל</h2></div>
+      <span class="mode-spacer"></span>
+    </button>
+    <button class="mode-card c2" onclick="go('flash')">
+      <span class="mode-icon">🃏</span>
+      <div class="mode-info"><h2>כרטיסיות</h2></div>
+      <span class="mode-spacer"></span>
+    </button>
+    <button class="mode-card c3" onclick="go('quiz')">
+      <span class="mode-icon">⚡</span>
+      <div class="mode-info"><h2>חידון מהיר</h2></div>
+      <span class="mode-spacer"></span>
+    </button>
+    <button class="mode-card c4" onclick="go('memory')">
+      <span class="mode-icon">🧩</span>
+      <div class="mode-info"><h2>משחק זיכרון</h2></div>
+      <span class="mode-spacer"></span>
+    </button>
+    <button class="mode-card c5" onclick="go('practice')">
+      <span class="mode-icon">✏️</span>
+      <div class="mode-info"><h2>תרגול</h2></div>
+      <span class="mode-spacer"></span>
+    </button>
+    <button class="mode-card c6" onclick="go('blanktable')">
+      <span class="mode-icon">📝</span>
+      <div class="mode-info"><h2>טבלת כפל ריקה</h2></div>
+      <span class="mode-spacer"></span>
+    </button>
+  </div>
+</div>
+
+<!-- TABLE -->
+<div id="screen-table" class="screen">
+  <div class="toggle-row">
+    <button class="toggle-btn active" onclick="setTableMax(10,this)">עד 10</button>
+    <button class="toggle-btn" onclick="setTableMax(12,this)">עד 12</button>
+  </div>
+  <div style="overflow-x:auto;"><table class="classic-table" id="classicTable"></table></div>
+</div>
+
+<!-- FLASH -->
+<div id="screen-flash" class="screen">
+  <div class="flash-num-grid" id="flashNumGrid"></div>
+  <div class="flash-mode-row">
+    <button class="fmode-btn sel" id="fmodeQ" onclick="setFlashMode('q',this)">הצגת שאלה</button>
+    <button class="fmode-btn" id="fmodeA" onclick="setFlashMode('a',this)">הצגת תשובה</button>
+    <button class="fmode-btn" id="fmodeShuffle" onclick="toggleShuffle(this)">🔀 ערבוב</button>
+  </div>
+  <div class="flash-cards-grid" id="flashCardsGrid"></div>
+</div>
+
+<!-- QUIZ -->
+<div id="screen-quiz" class="screen">
+  <div id="qSetup" class="quiz-setup">
+    <p style="color:#666;margin-bottom:20px;font-size:.9rem">עליך לענות על כמה שיותר תשובות נכונות לפני שהזמן נגמר!</p>
+    <div class="setup-row">
+      <span class="setup-label">לוח:</span>
+      <select class="setup-select" id="quizNum">
+        <option value="all">מעורב</option>
+        <option value="1">1</option><option value="2">2</option><option value="3">3</option>
+        <option value="4">4</option><option value="5">5</option><option value="6">6</option>
+        <option value="7">7</option><option value="8">8</option><option value="9">9</option>
+        <option value="10">10</option>
+      </select>
+      <span class="setup-label">זמן:</span>
+      <select class="setup-select" id="quizTime">
+        <option value="60">60 שניות</option>
+        <option value="90">90 שניות</option>
+        <option value="120">2 דקות</option>
+      </select>
+    </div>
+    <button class="start-big" onclick="startQuiz()">🚀 התחלה!</button>
+  </div>
+  <div id="qPlay" style="display:none">
+    <div class="quiz-hud">
+      <div class="hud-box"><div class="hv" id="qScore">0</div><div class="hl">ניקוד</div></div>
+      <div class="hud-box"><div class="hv" id="qTime">60</div><div class="hl">שניות</div></div>
+      <div class="hud-box"><div class="hv" id="qStreak">0</div><div class="hl">רצף 🔥</div></div>
+      <div class="hud-box"><div class="hv" id="qRecord">0</div><div class="hl">שיא 🏆</div></div>
+    </div>
+    <div class="timer-wrap"><div class="timer-fill" id="timerFill"></div></div>
+    <div class="q-card">
+      <div class="q-big" id="qText">? × ?</div>
+      <div class="q-sub">מה התשובה?</div>
+    </div>
+    <div class="ans-row">
+      <input class="ans-input" type="number" id="ansInput" placeholder="" autocomplete="off" inputmode="numeric"
+        onkeydown="if(event.key==='Enter')checkAnswer()">
+    </div>
+    <button class="submit-answer-btn" onclick="checkAnswer()">שלח תשובה 🎯</button>
+    <div class="feedback" id="feedbackMsg"></div>
+    <div class="correct-hint" id="correctHint"></div>
+  </div>
+  <div id="qEnd" style="display:none" class="end-screen">
+    <div style="font-size:3.5rem;margin-bottom:10px">🎉</div>
+    <div style="font-family:'Fredoka One',cursive;font-size:1.2rem">סיימת!</div>
+    <div class="end-score" id="finalScore">0</div>
+    <div style="color:#666;font-size:.9rem">נקודות</div>
+    <div id="newRecord" class="record-badge" style="display:none">🏆 שיא חדש!</div>
+    <br>
+    <button class="end-btn" onclick="startQuiz()">🔄 שחק שוב</button>
+    <button class="end-btn sec" onclick="showQSetup()">הגדרות</button>
+  </div>
+</div>
+
+<!-- MEMORY -->
+<div id="screen-memory" class="screen">
+  <!-- setup -->
+  <div id="memSetup" class="quiz-setup">
+    <div style="font-family:'Fredoka One',cursive;font-size:1rem;color:#555;margin-bottom:10px">בחירת לוחות כפל:</div>
+    <div class="mem-setup-grid" id="memNumGrid"></div>
+    <div style="margin:16px 0 8px;font-family:'Fredoka One',cursive;font-size:1rem;color:#555">כמה זוגות?</div>
+    <div class="mem-pairs-row" id="memPairsRow"></div>
+    <button class="start-big" onclick="startMemory()">🎴 התחלה!</button>
+  </div>
+  <!-- play -->
+  <div id="memPlay" style="display:none">
+    <div class="mem-hud">
+      <div class="mem-stat">ניסיונות<span id="memTries">0</span></div>
+      <div class="mem-stat">זוגות שנמצאו<span id="memMatched">0</span></div>
+      <button class="mem-new-btn" onclick="showMemSetup()">🔄 חדש</button>
+    </div>
+    <div class="mem-grid" id="memGrid"></div>
+  </div>
+</div>
+
+<!-- PRACTICE -->
+<div id="screen-practice" class="screen">
+  <div class="num-picker" id="numPicker"></div>
+  <div class="practice-rows" id="practiceRows"></div>
+</div>
+
+<!-- BLANK TABLE -->
+<div id="screen-blanktable" class="screen">
+  <!-- setup -->
+  <div id="btSetup" class="bt-setup">
+    <div class="bt-record-row" id="btRecordRow">
+      <div class="bt-rec-title">הזמן הטוב שלך</div>
+      <div class="bt-rec-val" id="btRecordDisplay">בחר כמות משבצות ריקות</div>
+    </div>
+    <div style="font-family:'Fredoka One',cursive;font-size:1rem;color:#555;margin-bottom:12px">כמה משבצות ריקות?</div>
+    <div class="blank-pct-grid" id="btPctGrid"></div>
+    <button class="start-big" onclick="startBlankTable()" style="background:linear-gradient(135deg,#F59E0B,#FBBF24);box-shadow:0 6px 20px rgba(245,158,11,.35)">🚀 התחלה!</button>
+  </div>
+  <!-- play -->
+  <div id="btPlay" style="display:none">
+    <div class="bt-hud">
+      <div class="bt-hud-box"><div class="bv" id="btTimer">0:00</div><div class="bl">זמן</div></div>
+      <div class="bt-hud-box"><div class="bv" id="btLeft">0</div><div class="bl">נשאר</div></div>
+      <div class="bt-hud-box"><div class="bv" id="btBest">-</div><div class="bl">שיא 🏆</div></div>
+      <button class="mem-new-btn" onclick="showBtSetup()">🔄 חדש</button>
+    </div>
+    <div class="bt-table-wrap">
+      <table class="bt-table" id="btTable"></table>
+    </div>
+    <button class="bt-done-btn" onclick="checkBlankTable()">✔ בדוק תשובות</button>
+  </div>
+</div>
+
+<!-- PRAISE -->
+<div class="praise-pop" id="praisePop">
+  <div class="pe" id="praiseE">🌟</div>
+  <div class="pt" id="praiseT">כל הכבוד!</div>
+</div>
+
+<script>
+function go(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('screen-'+id).classList.add('active');
+  document.getElementById('backBtn').style.display='block';
+  const hdr=document.getElementById('appHeader');
+  hdr.className='app-header h-'+id;
+  hdr.style.display='block';
+  if(id==='table')renderTable(tableMax);
+  if(id==='flash')initFlash();
+  if(id==='memory')initMemorySetup();
+  if(id==='practice')initPractice();
+  if(id==='blanktable')initBtSetup();
+}
+function goHome(){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('screen-home').classList.add('active');
+  document.getElementById('backBtn').style.display='none';
+  const hdr=document.getElementById('appHeader');
+  hdr.className='app-header h-home';
+  hdr.style.display='none';
+  clearInterval(quizTimer);quizRunning=false;
+  clearInterval(btTimer);btRunning=false;
+  document.getElementById('qSetup').style.display='block';
+  document.getElementById('qPlay').style.display='none';
+  document.getElementById('qEnd').style.display='none';
+}
+
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+const PRAISES=[['🌟','מדהים!'],['🎯','כל הכבוד!'],['🦄','מעולה!'],['🔥','ענק!'],['💎','פנטסטי!'],['🚀','סופר!'],['🎉','יופי!'],['⚡','מהיר כברק!'],['🌈','מושלם!'],['👑','אלוף הכפל!']];
+function praise(){
+  const[e,t]=PRAISES[Math.floor(Math.random()*PRAISES.length)];
+  const p=document.getElementById('praisePop');
+  document.getElementById('praiseE').textContent=e;
+  document.getElementById('praiseT').textContent=t;
+  p.classList.add('show');setTimeout(()=>p.classList.remove('show'),1100);
+}
+
+// TABLE
+let tableMax=10;
+function setTableMax(n,btn){
+  tableMax=n;
+  document.querySelectorAll('.toggle-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderTable(n);
+}
+function renderTable(max){
+  const t=document.getElementById('classicTable');
+  let h='<tr><th>×</th>';
+  for(let c=1;c<=max;c++)h+=`<th>${c}</th>`;
+  h+='</tr>';
+  for(let r=1;r<=max;r++){
+    h+=`<tr><td class="rh">${r}</td>`;
+    for(let c=1;c<=max;c++)h+=`<td>${r*c}</td>`;
+    h+='</tr>';
+  }
+  t.innerHTML=h;
+}
+renderTable(10);
+
+// FLASH
+let flashSelectedNum='all', flashMode='q', flashShuffled=false;
+
+function initFlash(){
+  const grid=document.getElementById('flashNumGrid');
+  if(!grid.children.length){
+    const opts=[{v:'all',l:'מעורב'},1,2,3,4,5,6,7,8,9,10,11,12];
+    opts.forEach(o=>{
+      const v=typeof o==='object'?o.v:o;
+      const l=typeof o==='object'?o.l:o;
+      const b=document.createElement('button');
+      b.className='fn-btn'+(v==='all'?' mix sel':'');
+      b.textContent=l;
+      b.addEventListener('click',()=>{
+        flashSelectedNum=v;
+        document.querySelectorAll('.fn-btn').forEach(x=>x.classList.remove('sel'));
+        b.classList.add('sel');
+        // reset shuffle state on number change
+        flashShuffled=false;
+        const sb=document.getElementById('fmodeShuffle');
+        sb.textContent='🔀 ערבוב';sb.classList.remove('sel');
+        renderFlashGrid();
+      });
+      grid.appendChild(b);
+    });
+  }
+  flashShuffled=false;
+  document.getElementById('fmodeShuffle').textContent='🔀 ערבוב';
+  document.getElementById('fmodeShuffle').classList.remove('sel');
+  renderFlashGrid();
+}
+
+function setFlashMode(mode, btn){
+  flashMode=mode;
+  document.querySelectorAll('.fmode-btn').forEach(x=>x.classList.remove('sel'));
+  btn.classList.add('sel');
+  // just flip all cards to show question or answer side, without re-rendering
+  document.querySelectorAll('.fc-grid-card').forEach(card=>{
+    if(mode==='a') card.classList.add('flipped');
+    else card.classList.remove('flipped');
+  });
+}
+
+function toggleShuffle(btn){
+  // reshuffle cards in the grid without re-rendering
+  const container=document.getElementById('flashCardsGrid');
+  const cards=[...container.children];
+  shuffle(cards);
+  cards.forEach(c=>container.appendChild(c));
+}
+
+function renderFlashGrid(){
+  let pairs=[];
+
+  const nums = flashSelectedNum==='all' ? [1,2,3,4,5,6,7,8,9,10,11,12] : [+flashSelectedNum];
+  nums.forEach(n=>{ for(let i=1;i<=10;i++) pairs.push([n,i]); });
+  if(flashSelectedNum==='all'){
+    pairs=shuffle(pairs).slice(0,10);
+  } else if(flashShuffled){
+    shuffle(pairs);
+  }
+
+  const showAnswer = flashMode==='a';
+  const container = document.getElementById('flashCardsGrid');
+  container.innerHTML = '';
+
+  pairs.forEach(([a,b])=>{
+    const ans = a*b;
+    const card = document.createElement('div');
+    card.className='fc-grid-card'+(showAnswer?' flipped':'');
+    card.innerHTML=`
+      <div class="fc-grid-inner">
+        <div class="fc-grid-face fc-grid-front">
+          <span class="fc-grid-q">${a} × ${b}</span>
+        </div>
+        <div class="fc-grid-face fc-grid-back">
+          <span class="fc-grid-a">${ans}</span>
+        </div>
+      </div>`;
+    card.addEventListener('click',()=>card.classList.toggle('flipped'));
+    container.appendChild(card);
+  });
+}
+
+// QUIZ
+let quizTimer,quizTimeLeft,quizScore,quizStreak,quizRecord=0,qA,qB,quizRunning=false,quizTotalTime=60;
+function showQSetup(){
+  clearInterval(quizTimer);quizRunning=false;
+  document.getElementById('qSetup').style.display='block';
+  document.getElementById('qPlay').style.display='none';
+  document.getElementById('qEnd').style.display='none';
+}
+function startQuiz(){
+  clearInterval(quizTimer);
+  quizTotalTime=+document.getElementById('quizTime').value;
+  quizTimeLeft=quizTotalTime;quizScore=0;quizStreak=0;quizRunning=true;
+  document.getElementById('qSetup').style.display='none';
+  document.getElementById('qPlay').style.display='block';
+  document.getElementById('qEnd').style.display='none';
+  document.getElementById('qRecord').textContent=quizRecord;
+  document.getElementById('timerFill').style.transition='none';
+  document.getElementById('timerFill').style.width='100%';
+  setTimeout(()=>document.getElementById('timerFill').style.transition='width 1s linear',50);
+  updateHUD();nextQ();
+  const startTime=Date.now();
+  quizTimer=setInterval(()=>{
+    const elapsed=Math.floor((Date.now()-startTime)/1000);
+    quizTimeLeft=Math.max(0,quizTotalTime-elapsed);
+    document.getElementById('qTime').textContent=quizTimeLeft;
+    document.getElementById('timerFill').style.width=(quizTimeLeft/quizTotalTime*100)+'%';
+    if(quizTimeLeft<=0){clearInterval(quizTimer);endQuiz();}
+  },250);
+  setTimeout(()=>document.getElementById('ansInput').focus(),50);
+}
+function getQNums(){const v=document.getElementById('quizNum').value;return v==='all'?[1,2,3,4,5,6,7,8,9,10]:[+v];}
+function nextQ(){
+  const nums=getQNums();
+  qA=nums[Math.floor(Math.random()*nums.length)];qB=Math.ceil(Math.random()*10);
+  document.getElementById('qText').textContent=`${qA} × ${qB}`;
+  const inp=document.getElementById('ansInput');
+  inp.value='';inp.className='ans-input';
+  document.getElementById('feedbackMsg').textContent='';
+  document.getElementById('feedbackMsg').className='feedback';
+  document.getElementById('correctHint').className='correct-hint';
+  setTimeout(()=>inp.focus(),50);
+}
+function checkAnswer(){
+  if(!quizRunning)return;
+  const inp=document.getElementById('ansInput');
+  if(inp.value.trim()==='')return;
+  const correct=qA*qB,val=+inp.value;
+  const fb=document.getElementById('feedbackMsg'),hint=document.getElementById('correctHint');
+  if(val===correct){
+    quizScore++;quizStreak++;inp.className='ans-input ok';
+    fb.textContent='';fb.className='feedback';
+    praise();updateHUD();setTimeout(nextQ,700);
+  }else{
+    quizStreak=0;inp.className='ans-input bad';
+    fb.textContent='❌ לא נכון!';fb.className='feedback bad';
+    hint.textContent=`התשובה: ${qA} × ${qB} = ${correct}`;
+    hint.className='correct-hint show';
+    updateHUD();setTimeout(nextQ,1600);
+  }
+}
+function updateHUD(){
+  document.getElementById('qScore').textContent=quizScore;
+  document.getElementById('qStreak').textContent=quizStreak;
+  document.getElementById('qRecord').textContent=quizRecord;
+}
+function endQuiz(){
+  clearInterval(quizTimer);quizRunning=false;
+  document.getElementById('qPlay').style.display='none';
+  document.getElementById('qEnd').style.display='block';
+  document.getElementById('finalScore').textContent=quizScore;
+  const nr=document.getElementById('newRecord');
+  if(quizScore>quizRecord){quizRecord=quizScore;nr.style.display='inline-block';}
+  else nr.style.display='none';
+}
+
+// MEMORY
+let memFlipped=[],memMatchedCount=0,memTries=0,memLocked=false,memSelectedNums=new Set([2]),memSelectedPairs=6;
+function initMemorySetup(){
+  const ng=document.getElementById('memNumGrid');
+  if(!ng.children.length){
+    for(let n=1;n<=10;n++){
+      const b=document.createElement('button');
+      b.className='msn-btn'+(n===2?' sel':'');
+      b.textContent=n;
+      b.addEventListener('click',()=>{
+        if(memSelectedNums.has(n)){
+          if(memSelectedNums.size>1){ memSelectedNums.delete(n); b.classList.remove('sel'); }
+        } else {
+          memSelectedNums.add(n); b.classList.add('sel');
+        }
+      });
+      ng.appendChild(b);
+    }
+  }
+  const pr=document.getElementById('memPairsRow');
+  if(!pr.children.length){
+    [{v:6,l:'6 😊'},{v:9,l:'9 😎'},{v:12,l:'12 🤯'}].forEach(o=>{
+      const b=document.createElement('button');
+      b.className='msp-btn'+(o.v===6?' sel':'');
+      b.textContent=o.l;
+      b.addEventListener('click',()=>{
+        memSelectedPairs=o.v;
+        document.querySelectorAll('.msp-btn').forEach(x=>x.classList.remove('sel'));
+        b.classList.add('sel');
+      });
+      pr.appendChild(b);
+    });
+  }
+  showMemSetup();
+}
+function showMemSetup(){
+  document.getElementById('memSetup').style.display='block';
+  document.getElementById('memPlay').style.display='none';
+}
+function startMemory(){
+  document.getElementById('memSetup').style.display='none';
+  document.getElementById('memPlay').style.display='block';
+  initMemory([...memSelectedNums], memSelectedPairs);
+}
+function initMemory(nums, pairs){
+  memFlipped=[];memMatchedCount=0;memTries=0;memLocked=false;
+  document.getElementById('memTries').textContent=0;
+  document.getElementById('memMatched').textContent=0;
+  // build pool of all possible [num, multiplier] combos from selected nums
+  const pool=[];
+  nums.forEach(n=>{ for(let i=1;i<=10;i++) pool.push([n,i]); });
+  shuffle(pool);
+  const chosen=pool.slice(0,pairs);
+  const cards=[];
+  chosen.forEach(([n,i])=>{
+    cards.push({type:'q',text:`${n}×${i}`,pair:`${n}x${i}`});
+    cards.push({type:'a',text:`${n*i}`,pair:`${n}x${i}`});
+  });
+  shuffle(cards);
+  const cols=pairs<=6?4:6;
+  const grid=document.getElementById('memGrid');
+  grid.style.gridTemplateColumns=`repeat(${cols},1fr)`;
+  grid.innerHTML='';
+  cards.forEach(card=>{
+    const el=document.createElement('div');
+    el.className='mem-card';
+    el.innerHTML=`<div class="mc-inner"><div class="mc-face mc-back">⭐</div><div class="mc-face mc-front${card.type==='q'?' is-q':''}">${card.text}</div></div>`;
+    el.addEventListener('click',()=>flipMem(el,card,pairs));
+    grid.appendChild(el);
+  });
+}
+function flipMem(el,card,total){
+  if(memLocked||el.classList.contains('flipped')||el.classList.contains('matched'))return;
+  el.classList.add('flipped');
+  memFlipped.push({el,card});
+  if(memFlipped.length===2){
+    memLocked=true;
+    memTries++;document.getElementById('memTries').textContent=memTries;
+    const[a,b]=memFlipped;
+    if(a.card.pair===b.card.pair&&a.card.type!==b.card.type){
+      a.el.classList.add('matched');b.el.classList.add('matched');
+      memMatchedCount++;document.getElementById('memMatched').textContent=memMatchedCount;
+      memFlipped=[];memLocked=false;
+      if(memMatchedCount===total)setTimeout(()=>{praise();setTimeout(()=>alert(`🎉 כל הכבוד!\nסיימת ב-${memTries} ניסיונות!`),500);},300);
+    }else{
+      setTimeout(()=>{
+        a.el.classList.remove('flipped','wrong-flash');
+        b.el.classList.remove('flipped','wrong-flash');
+        memFlipped=[];memLocked=false;
+      },1000);
+    }
+  }
+}
+
+// PRACTICE
+let practiceNum='mixed';
+function initPractice(){
+  const picker=document.getElementById('numPicker');
+  if(!picker.children.length){
+    // numbers 1-12 — just highlight, don't render on click
+    [1,2,3,4,5,6,7,8,9,10,11,12].forEach(n=>{
+      const b=document.createElement('button');
+      b.className='np-btn';
+      b.textContent=n;
+      b.addEventListener('click',()=>{
+        practiceNum=n;
+        document.querySelectorAll('.np-btn:not(.mix)').forEach(x=>x.classList.remove('sel'));
+        b.classList.add('sel');
+      });
+      picker.appendChild(b);
+    });
+    // shuffle button
+    const sb=document.createElement('button');
+    sb.className='np-btn mix';
+    sb.textContent='🔀 ערבוב';
+    sb.addEventListener('click',()=>{
+      renderPractice();
+    });
+    picker.appendChild(sb);
+    practiceNum=1;
+    picker.children[0].classList.add('sel');
+  }
+  renderPractice();
+}
+function renderPractice(){
+  const area=document.getElementById('practiceRows');
+  let questions=[];
+  // always 10 random multipliers for the chosen number
+  const mults=shuffle([1,2,3,4,5,6,7,8,9,10,11,12]).slice(0,10);
+  questions=mults.map(i=>[+practiceNum,i]);
+  let h='';
+  questions.forEach(([n,i])=>{
+    h+=`<div class="pr-row-wrap"><div class="pr-row"><span class="pr-q">${n} × ${i}</span><span class="pr-eq">=</span><input class="pr-inp" type="number" inputmode="numeric" data-ans="${n*i}" placeholder="?" autocomplete="off"></div></div>`;
+  });
+  h+=`<button class="check-all" onclick="checkPractice()">✔ בדוק תשובות</button><div class="pr-result" id="prResult"></div>`;
+  area.innerHTML=h;
+}
+function checkPractice(){
+  const inputs=document.querySelectorAll('.pr-inp');
+  let correct=0,filled=0;
+  inputs.forEach(inp=>{
+    inp.classList.remove('ok','bad');
+    if(inp.value==='')return;
+    filled++;
+    if(+inp.value===+inp.dataset.ans){inp.classList.add('ok');correct++;}
+    else inp.classList.add('bad');
+  });
+  const res=document.getElementById('prResult');
+  if(correct===10){res.textContent='🎉 מושלם! כל התשובות נכונות!';res.style.background='#e8fff4';res.style.color='#0d7c56';praise();}
+  else{res.textContent=`✅ ${correct} נכון מתוך ${filled}. כדאי להמשיך להתאמן!`;res.style.background='#fff9c4';res.style.color='#7d5c00';}
+  res.classList.add('show');
+}// BLANK TABLE
+const btRecords={};  // key = blank count, value = best seconds
+let btSelectedBlanks=10,btTimer=null,btStartTime=null,btRunning=false,btTableMax=10;
+
+function initBtSetup(){
+  const grid=document.getElementById('btPctGrid');
+  if(!grid.children.length){
+    [10,20,30,40,50,60,70,80,90,100].forEach(count=>{
+      const b=document.createElement('button');
+      b.className='bpct-btn'+(count===10?' sel':'');
+      b.textContent=count;
+      b.addEventListener('click',()=>{
+        btSelectedBlanks=count;
+        document.querySelectorAll('.bpct-btn').forEach(x=>x.classList.remove('sel'));
+        b.classList.add('sel');
+        updateBtRecord();
+      });
+      grid.appendChild(b);
+    });
+  }
+  showBtSetup();
+  updateBtRecord();
+}
+function updateBtRecord(){
+  const rec=btRecords[btSelectedBlanks];
+  document.getElementById('btRecordDisplay').textContent=
+    rec!=null ? fmtTime(rec) : 'אין שיא עדיין';
+}
+function showBtSetup(){
+  clearInterval(btTimer);btRunning=false;
+  document.getElementById('btSetup').style.display='block';
+  document.getElementById('btPlay').style.display='none';
+}
+function fmtTime(s){return Math.floor(s/60)+':'+(s%60<10?'0':'')+s%60;}
+
+function startBlankTable(){
+  document.getElementById('btSetup').style.display='none';
+  document.getElementById('btPlay').style.display='block';
+  buildBtTable();
+  // update best display
+  const rec=btRecords[btSelectedBlanks];
+  document.getElementById('btBest').textContent=rec!=null?fmtTime(rec):'-';
+  // start timer
+  clearInterval(btTimer);btRunning=true;btStartTime=Date.now();
+  btTimer=setInterval(()=>{
+    if(!btRunning)return;
+    const s=Math.floor((Date.now()-btStartTime)/1000);
+    document.getElementById('btTimer').textContent=fmtTime(s);
+  },250);
+}
+
+function buildBtTable(){
+  const max=10;
+  const total=max*max;
+  const blankCount=Math.min(btSelectedBlanks,total);
+  const positions=shuffle([...Array(total).keys()]).slice(0,blankCount);
+  const blankSet=new Set(positions);
+
+  const t=document.getElementById('btTable');
+  let h='<tr><th>×</th>';
+  for(let c=1;c<=max;c++)h+=`<th>${c}</th>`;
+  h+='</tr>';
+  let idx=0;
+  for(let r=1;r<=max;r++){
+    h+=`<tr><td class="rh">${r}</td>`;
+    for(let c=1;c<=max;c++){
+      const ans=r*c;
+      if(blankSet.has(idx)){
+        h+=`<td><input class="bt-inp" type="number" inputmode="numeric" data-ans="${ans}" placeholder="" autocomplete="off"></td>`;
+      } else {
+        h+=`<td><span class="bt-static">${ans}</span></td>`;
+      }
+      idx++;
+    }
+    h+='</tr>';
+  }
+  t.innerHTML=h;
+  // count blanks left
+  updateBtLeft();
+  // live counter on input
+  t.querySelectorAll('.bt-inp').forEach(inp=>{
+    inp.addEventListener('input',updateBtLeft);
+  });
+}
+
+function updateBtLeft(){
+  const inputs=document.querySelectorAll('.bt-inp');
+  const remaining=[...inputs].filter(i=>i.value.trim()==='').length;
+  document.getElementById('btLeft').textContent=remaining;
+}
+
+function checkBlankTable(){
+  if(!btRunning)return;
+  const inputs=document.querySelectorAll('.bt-inp');
+  let allCorrect=true;
+  inputs.forEach(inp=>{
+    inp.classList.remove('ok','bad');
+    if(inp.value.trim()===''){allCorrect=false;inp.classList.add('bad');return;}
+    if(+inp.value===+inp.dataset.ans)inp.classList.add('ok');
+    else{inp.classList.add('bad');allCorrect=false;}
+  });
+  if(allCorrect){
+    clearInterval(btTimer);btRunning=false;
+    const elapsed=Math.floor((Date.now()-btStartTime)/1000);
+    const prev=btRecords[btSelectedBlanks];
+    let msg=`🎉 מושלם!\nזמן: ${fmtTime(elapsed)}`;
+    if(prev==null||elapsed<prev){
+      btRecords[btSelectedBlanks]=elapsed;
+      msg+='\n🏆 שיא חדש!';
+    } else {
+      msg+=`\nהשיא שלך: ${fmtTime(prev)}`;
+    }
+    praise();
+    setTimeout(()=>alert(msg),400);
+  }
+}
+</script>
+</body>
+</html>
