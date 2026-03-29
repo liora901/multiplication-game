@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>🌟 לוח הכפל</title>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Heebo:wght@400;700;900&display=swap" rel="stylesheet">
-<link rel="manifest" href="manifest.json">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 :root{
@@ -121,10 +120,10 @@ body::before{
   font-family:'Fredoka One',cursive;font-size:1rem;cursor:pointer;transition:all .18s;
 }
 .toggle-btn.active,.toggle-btn:hover{background:var(--orange);color:white;}
-.classic-table{border-collapse:separate;border-spacing:3px;max-width:480px;margin:0 auto;table-layout:fixed;width:100%;}
-.classic-table th{background:var(--orange);color:white;font-family:'Fredoka One',cursive;font-size:.8rem;padding:0;border-radius:7px;text-align:center;height:34px;width:34px;}
-.classic-table td{background:white;text-align:center;padding:0;border-radius:7px;font-weight:700;font-size:.8rem;box-shadow:0 2px 6px rgba(0,0,0,.06);height:34px;}
-.classic-table .rh{background:var(--orange);color:white;font-family:'Fredoka One',cursive;border-radius:7px;}
+.classic-table{border-collapse:separate;border-spacing:2px;margin:0 auto;table-layout:fixed;width:100%;}
+.classic-table th{background:var(--orange);color:white;font-family:'Fredoka One',cursive;font-size:clamp(.6rem,.8vw + .4rem,.85rem);padding:0;border-radius:6px;text-align:center;height:clamp(26px,6vw,38px);}
+.classic-table td{background:white;text-align:center;padding:0;border-radius:6px;font-weight:700;font-size:clamp(.6rem,.8vw + .4rem,.85rem);box-shadow:0 1px 4px rgba(0,0,0,.06);height:clamp(26px,6vw,38px);}
+.classic-table .rh{background:var(--orange);color:white;font-family:'Fredoka One',cursive;border-radius:6px;font-weight:700;}
 
 /* FLASH */
 .flash-num-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:7px;max-width:480px;margin:0 auto 14px;}
@@ -207,22 +206,22 @@ body::before{
 @keyframes wrongFlash{50%{filter:brightness(.7) saturate(.5);}}
 
 /* PRACTICE */
-.num-picker{display:grid;grid-template-columns:repeat(7,1fr);gap:7px;max-width:480px;margin:0 auto 20px;}
-.np-btn{border:3px solid #ddd;border-radius:12px;background:white;font-family:'Fredoka One',cursive;font-size:1rem;padding:10px 0;cursor:pointer;transition:all .18s;}
+.num-picker{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;max-width:400px;margin:0 auto 14px;}
+.np-btn{border:3px solid #ddd;border-radius:12px;background:white;font-family:'Fredoka One',cursive;font-size:1rem;padding:10px 0;cursor:pointer;transition:all .18s;width:100%;}
 .np-btn:active,.np-btn.sel{background:var(--green);color:white;border-color:var(--green);}
-.np-btn.mix{font-size:.8rem;}
-.practice-rows{max-width:340px;margin:0 auto;display:flex;flex-direction:column;align-items:center;}
-.pr-row{display:inline-flex;align-items:center;gap:10px;background:white;border-radius:14px;padding:10px 14px;box-shadow:0 2px 8px rgba(0,0,0,.06);direction:ltr;}
-.pr-row-wrap{display:flex;justify-content:center;width:100%;margin-bottom:10px;}
-.pr-q{font-family:'Fredoka One',cursive;font-size:1.1rem;}
-.pr-eq{font-size:1.1rem;color:#bbb;margin:0 2px;}
-.pr-inp{border:2.5px solid #ddd;border-radius:8px;padding:4px 6px;text-align:center;width:48px;font-family:'Fredoka One',cursive;font-size:1rem;outline:none;transition:border .2s;}
+.np-btn.mix{font-size:.85rem;}
+.practice-rows{max-width:400px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.pr-row{display:flex;align-items:center;justify-content:center;gap:7px;background:white;border-radius:12px;padding:8px 10px;box-shadow:0 2px 8px rgba(0,0,0,.06);direction:ltr;width:100%;}
+.pr-row-wrap{display:contents;}
+.pr-q{font-family:'Fredoka One',cursive;font-size:.95rem;}
+.pr-eq{font-size:.95rem;color:#bbb;margin:0 2px;}
+.pr-inp{border:2.5px solid #ddd;border-radius:8px;padding:4px 4px;text-align:center;width:42px;font-family:'Fredoka One',cursive;font-size:.95rem;outline:none;transition:border .2s;}
 .pr-inp:focus{border-color:var(--green);}
 .pr-inp.ok{border-color:var(--green);background:#f0fff8;}
 .pr-inp.bad{border-color:#ff4757;background:#fff0f0;}
-.check-all{display:block;width:100%;max-width:380px;margin:16px auto 0;background:linear-gradient(135deg,var(--green),#34D399);color:white;border:none;border-radius:50px;padding:15px;font-family:'Fredoka One',cursive;font-size:1.2rem;cursor:pointer;box-shadow:0 5px 16px rgba(6,214,160,.35);transition:all .18s;}
+.check-all{display:block;width:100%;max-width:400px;margin:10px auto 0;background:linear-gradient(135deg,var(--green),#34D399);color:white;border:none;border-radius:50px;padding:13px;font-family:'Fredoka One',cursive;font-size:1.1rem;cursor:pointer;box-shadow:0 5px 16px rgba(6,214,160,.35);transition:all .18s;grid-column:1/-1;}
 .check-all:active{transform:scale(.97);}
-.pr-result{text-align:center;font-weight:700;font-size:1rem;border-radius:14px;padding:12px;margin-top:12px;max-width:380px;margin:12px auto 0;display:none;}
+.pr-result{text-align:center;font-weight:700;font-size:1rem;border-radius:14px;padding:12px;margin-top:4px;display:none;grid-column:1/-1;}
 .pr-result.show{display:block;}
 
 /* PRAISE */
@@ -236,7 +235,7 @@ body::before{
   .mode-card{padding:16px 14px;}
   .mode-icon{font-size:2rem;}
   .mode-info h2{font-size:1.1rem;}
-  .classic-table th,.classic-table td,.classic-table .rh{font-size:.75rem;padding:5px 1px;}
+  .classic-table{border-spacing:1px;}
   .flash-cards-grid{grid-template-columns:repeat(2,1fr);}
   .fc-grid-card{height:76px;}
   .fc-grid-q{font-size:1.1rem;}
@@ -271,7 +270,7 @@ body::before{
     </button>
     <button class="mode-card c3" onclick="go('quiz')">
       <span class="mode-icon">⚡</span>
-      <div class="mode-info"><h2>חידון מהיר</h2></div>
+      <div class="mode-info"><h2>חידון</h2></div>
       <span class="mode-spacer"></span>
     </button>
     <button class="mode-card c4" onclick="go('memory')">
@@ -298,7 +297,7 @@ body::before{
     <button class="toggle-btn active" onclick="setTableMax(10,this)">עד 10</button>
     <button class="toggle-btn" onclick="setTableMax(12,this)">עד 12</button>
   </div>
-  <div style="overflow-x:auto;"><table class="classic-table" id="classicTable"></table></div>
+  <div style="width:100%;padding:0 2px;"><table class="classic-table" id="classicTable"></table></div>
 </div>
 
 <!-- FLASH -->
@@ -340,6 +339,9 @@ body::before{
       <div class="hud-box"><div class="hv" id="qTime">60</div><div class="hl">שניות</div></div>
       <div class="hud-box"><div class="hv" id="qStreak">0</div><div class="hl">רצף 🔥</div></div>
       <div class="hud-box"><div class="hv" id="qRecord">0</div><div class="hl">שיא 🏆</div></div>
+    </div>
+    <div style="text-align:left;margin-bottom:8px;">
+      <button id="muteBtn" onclick="toggleMute()" style="background:none;border:2px solid #ddd;border-radius:50px;padding:5px 14px;font-family:'Fredoka One',cursive;font-size:.85rem;cursor:pointer;color:#888;">🔊 השתק</button>
     </div>
     <div class="timer-wrap"><div class="timer-fill" id="timerFill"></div></div>
     <div class="q-card">
@@ -449,6 +451,7 @@ function goHome(){
   hdr.style.display='none';
   clearInterval(quizTimer);quizRunning=false;
   clearInterval(btTimer);btRunning=false;
+  stopQuizMusic();
   document.getElementById('qSetup').style.display='block';
   document.getElementById('qPlay').style.display='none';
   document.getElementById('qEnd').style.display='none';
@@ -565,7 +568,7 @@ function renderFlashGrid(){
           <span class="fc-grid-a">${ans}</span>
         </div>
       </div>`;
-    card.addEventListener('click',()=>card.classList.toggle('flipped'));
+    card.addEventListener('click',()=>{if(AC.state==='suspended')AC.resume();playFlip();card.classList.toggle('flipped');});
     container.appendChild(card);
   });
 }
@@ -574,12 +577,14 @@ function renderFlashGrid(){
 let quizTimer,quizTimeLeft,quizScore,quizStreak,quizRecord=0,qA,qB,quizRunning=false,quizTotalTime=60;
 function showQSetup(){
   clearInterval(quizTimer);quizRunning=false;
+  stopQuizMusic();
   document.getElementById('qSetup').style.display='block';
   document.getElementById('qPlay').style.display='none';
   document.getElementById('qEnd').style.display='none';
 }
 function startQuiz(){
   clearInterval(quizTimer);
+  stopQuizMusic();
   quizTotalTime=+document.getElementById('quizTime').value;
   quizTimeLeft=quizTotalTime;quizScore=0;quizStreak=0;quizRunning=true;
   document.getElementById('qSetup').style.display='none';
@@ -590,12 +595,19 @@ function startQuiz(){
   document.getElementById('timerFill').style.width='100%';
   setTimeout(()=>document.getElementById('timerFill').style.transition='width 1s linear',50);
   updateHUD();nextQ();
+  startQuizMusic();
   const startTime=Date.now();
+  let lastBeepSec=-1;
   quizTimer=setInterval(()=>{
     const elapsed=Math.floor((Date.now()-startTime)/1000);
     quizTimeLeft=Math.max(0,quizTotalTime-elapsed);
     document.getElementById('qTime').textContent=quizTimeLeft;
     document.getElementById('timerFill').style.width=(quizTimeLeft/quizTotalTime*100)+'%';
+    if(quizTimeLeft<=5&&quizTimeLeft>0&&quizTimeLeft!==lastBeepSec){
+      lastBeepSec=quizTimeLeft;
+      if(AC.state==='suspended')AC.resume();
+      playCountdownBeep(quizTimeLeft===1);
+    }
     if(quizTimeLeft<=0){clearInterval(quizTimer);endQuiz();}
   },250);
   setTimeout(()=>document.getElementById('ansInput').focus(),50);
@@ -637,6 +649,7 @@ function updateHUD(){
 }
 function endQuiz(){
   clearInterval(quizTimer);quizRunning=false;
+  stopQuizMusic();
   document.getElementById('qPlay').style.display='none';
   document.getElementById('qEnd').style.display='block';
   document.getElementById('finalScore').textContent=quizScore;
@@ -728,8 +741,10 @@ function flipMem(el,card,total){
       a.el.classList.add('matched');b.el.classList.add('matched');
       memMatchedCount++;document.getElementById('memMatched').textContent=memMatchedCount;
       memFlipped=[];memLocked=false;
+      playMemMatch();
       if(memMatchedCount===total)setTimeout(()=>{praise();setTimeout(()=>alert(`🎉 כל הכבוד!\nסיימת ב-${memTries} ניסיונות!`),500);},300);
     }else{
+      playMemNoMatch();
       setTimeout(()=>{
         a.el.classList.remove('flipped','wrong-flash');
         b.el.classList.remove('flipped','wrong-flash');
@@ -740,44 +755,37 @@ function flipMem(el,card,total){
 }
 
 // PRACTICE
-let practiceNum='mixed';
+let practiceNum=1;
 function initPractice(){
   const picker=document.getElementById('numPicker');
   if(!picker.children.length){
-    // numbers 1-12 — just highlight, don't render on click
-    [1,2,3,4,5,6,7,8,9,10,11,12].forEach(n=>{
+    [1,2,3,4,5,6,7,8,9,10].forEach((n,idx)=>{
       const b=document.createElement('button');
-      b.className='np-btn';
+      b.className='np-btn'+(idx===0?' sel':'');
       b.textContent=n;
       b.addEventListener('click',()=>{
         practiceNum=n;
         document.querySelectorAll('.np-btn:not(.mix)').forEach(x=>x.classList.remove('sel'));
         b.classList.add('sel');
+        renderPractice(false); // ordered
       });
       picker.appendChild(b);
     });
-    // shuffle button
     const sb=document.createElement('button');
     sb.className='np-btn mix';
     sb.textContent='🔀 ערבוב';
-    sb.addEventListener('click',()=>{
-      renderPractice();
-    });
+    sb.addEventListener('click',()=>{ renderPractice(true); }); // shuffled
     picker.appendChild(sb);
-    practiceNum=1;
-    picker.children[0].classList.add('sel');
   }
-  renderPractice();
+  renderPractice(false);
 }
-function renderPractice(){
+function renderPractice(doShuffle){
   const area=document.getElementById('practiceRows');
-  let questions=[];
-  // always 10 random multipliers for the chosen number
-  const mults=shuffle([1,2,3,4,5,6,7,8,9,10,11,12]).slice(0,10);
-  questions=mults.map(i=>[+practiceNum,i]);
+  let mults=[1,2,3,4,5,6,7,8,9,10];
+  if(doShuffle) mults=shuffle([...mults]);
   let h='';
-  questions.forEach(([n,i])=>{
-    h+=`<div class="pr-row-wrap"><div class="pr-row"><span class="pr-q">${n} × ${i}</span><span class="pr-eq">=</span><input class="pr-inp" type="number" inputmode="numeric" data-ans="${n*i}" placeholder="?" autocomplete="off"></div></div>`;
+  mults.forEach(i=>{
+    h+=`<div class="pr-row-wrap"><div class="pr-row"><span class="pr-q">${practiceNum} × ${i}</span><span class="pr-eq">=</span><input class="pr-inp" type="number" inputmode="numeric" data-ans="${practiceNum*i}" placeholder="?" autocomplete="off"></div></div>`;
   });
   h+=`<button class="check-all" onclick="checkPractice()">✔ בדוק תשובות</button><div class="pr-result" id="prResult"></div>`;
   area.innerHTML=h;
@@ -911,6 +919,137 @@ function checkBlankTable(){
     praise();
     setTimeout(()=>alert(msg),400);
   }
+}
+// AUDIO
+const AC = new (window.AudioContext || window.webkitAudioContext)();
+
+function playFlip(){
+  const o=AC.createOscillator(),g=AC.createGain();
+  o.connect(g);g.connect(AC.destination);
+  o.type='sine';
+  o.frequency.setValueAtTime(520,AC.currentTime);
+  o.frequency.exponentialRampToValueAtTime(880,AC.currentTime+0.08);
+  g.gain.setValueAtTime(0.18,AC.currentTime);
+  g.gain.exponentialRampToValueAtTime(0.001,AC.currentTime+0.18);
+  o.start();o.stop(AC.currentTime+0.18);
+}
+
+function playMemMatch(){
+  // happy ascending chime
+  [523,659,784].forEach((f,i)=>{
+    const o=AC.createOscillator(),g=AC.createGain();
+    o.connect(g);g.connect(AC.destination);
+    o.type='sine';o.frequency.value=f;
+    const t=AC.currentTime+i*0.1;
+    g.gain.setValueAtTime(0.15,t);
+    g.gain.exponentialRampToValueAtTime(0.001,t+0.25);
+    o.start(t);o.stop(t+0.25);
+  });
+}
+
+function playMemNoMatch(){
+  // low thud
+  const o=AC.createOscillator(),g=AC.createGain();
+  o.connect(g);g.connect(AC.destination);
+  o.type='sawtooth';
+  o.frequency.setValueAtTime(180,AC.currentTime);
+  o.frequency.exponentialRampToValueAtTime(80,AC.currentTime+0.2);
+  g.gain.setValueAtTime(0.15,AC.currentTime);
+  g.gain.exponentialRampToValueAtTime(0.001,AC.currentTime+0.2);
+  o.start();o.stop(AC.currentTime+0.2);
+}
+
+function playCountdownBeep(isLast){
+  const o=AC.createOscillator(),g=AC.createGain();
+  o.connect(g);g.connect(AC.destination);
+  o.type='sine';
+  o.frequency.value=isLast?880:660;
+  g.gain.setValueAtTime(0.2,AC.currentTime);
+  g.gain.exponentialRampToValueAtTime(0.001,AC.currentTime+(isLast?0.5:0.15));
+  o.start();o.stop(AC.currentTime+(isLast?0.5:0.15));
+}
+
+// QUIZ TENSE MUSIC
+let quizMusicNodes=[],quizMusicRunning=false,quizMuted=false;
+let quizMasterGain=null;
+
+function toggleMute(){
+  quizMuted=!quizMuted;
+  if(quizMasterGain) quizMasterGain.gain.setValueAtTime(quizMuted?0:1,AC.currentTime);
+  const btn=document.getElementById('muteBtn');
+  if(btn) btn.textContent=quizMuted?'🔇 בטל השתקה':'🔊 השתק';
+}
+
+// Tense minor melody - A minor feel, 120bpm
+// Each entry: [frequency, duration_in_beats, gain]
+const QUIZ_MELODY=[
+  [440,1],[392,1],[349,1],[330,2],
+  [370,1],[330,1],[294,1],[262,2],
+  [294,1],[330,1],[370,1],[392,2],
+  [440,1],[494,1],[523,1],[494,2],
+  [440,1],[392,1],[370,1],[330,2],
+  [294,1],[330,1],[294,1],[262,4],
+];
+
+function startQuizMusic(){
+  if(quizMusicRunning)return;
+  quizMusicRunning=true;
+  quizMuted=false;
+  const btn=document.getElementById('muteBtn');
+  if(btn) btn.textContent='🔊 השתק';
+  if(AC.state==='suspended')AC.resume();
+  quizMasterGain=AC.createGain();
+  quizMasterGain.gain.value=1;
+  quizMasterGain.connect(AC.destination);
+  scheduleQuizMelody();
+}
+
+function scheduleQuizMelody(){
+  if(!quizMusicRunning)return;
+  const bps=1/0.42; // ~142bpm
+  const beat=1/bps;
+  let t=AC.currentTime+0.02;
+  let totalBeats=0;
+
+  QUIZ_MELODY.forEach(([freq,dur])=>{
+    // melody note
+    const o=AC.createOscillator(),g=AC.createGain();
+    o.connect(g);g.connect(quizMasterGain);
+    o.type='triangle';
+    o.frequency.value=freq;
+    const noteLen=dur*beat*0.85;
+    g.gain.setValueAtTime(0,t);
+    g.gain.linearRampToValueAtTime(0.09,t+0.02);
+    g.gain.setValueAtTime(0.07,t+noteLen*0.7);
+    g.gain.linearRampToValueAtTime(0,t+noteLen);
+    o.start(t);o.stop(t+noteLen);
+    quizMusicNodes.push(o);
+
+    // bass on downbeats (every 2 beats)
+    if(totalBeats%2===0){
+      const b=AC.createOscillator(),bg=AC.createGain();
+      b.connect(bg);bg.connect(quizMasterGain);
+      b.type='sine';
+      b.frequency.value=freq/2;
+      bg.gain.setValueAtTime(0.1,t);
+      bg.gain.exponentialRampToValueAtTime(0.001,t+beat*1.5);
+      b.start(t);b.stop(t+beat*1.5);
+      quizMusicNodes.push(b);
+    }
+
+    t+=dur*beat;
+    totalBeats+=dur;
+  });
+
+  const loopMs=totalBeats*beat*1000;
+  setTimeout(()=>{ if(quizMusicRunning)scheduleQuizMelody(); },loopMs-100);
+}
+
+function stopQuizMusic(){
+  quizMusicRunning=false;
+  quizMusicNodes.forEach(o=>{try{o.stop();}catch(e){}});
+  quizMusicNodes=[];
+  if(quizMasterGain){quizMasterGain.disconnect();quizMasterGain=null;}
 }
 </script>
 </body>
